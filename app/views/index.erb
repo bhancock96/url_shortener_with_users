@@ -8,6 +8,12 @@
    <% if !current_user %>
         <%=  erb :login_form  %>
    <% end  %>
+
+   <h2>Create a short url</h2>
+  <form action="/urls" method="post">
+    <input type="text" name="url" placeholder="Enter url">
+    <input type="submit" value="Create Url">
+  </form>
 </div>
 
 

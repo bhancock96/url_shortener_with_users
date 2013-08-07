@@ -8,9 +8,19 @@ get "/create" do
   erb :create_user
 end 
 
-get "/secret_page" do
-  if current_user 
-    erb :secret
+get "/users/logout" do
+  session.clear
+  redirect '/'
+end
+get "/users/:id" do
+  if current_user
+    @user = User.find(params[:id])
+    if @user.id == session[:user_id]
+      @urls = @user.urls.all
+      erb :profile
+    else
+      @error = "Nice try"
+    end
   else
     @error = "you gotta login, ya chancho."
     erb :index
@@ -18,10 +28,6 @@ get "/secret_page" do
 
 end 
 
-get "/users/logout" do
-  session.clear
-  redirect '/'
-end
 
 
 #----POST---------------------------------------------------------
@@ -33,12 +39,12 @@ post "/login" do
   puts session[:user_id]
   puts 
   puts 
-  redirect "/secret_page"
+  redirect "/users/#{@user.id}"
 end 
 
 post "/create_user" do 
   @user = User.create(params[:user])
   session[:user_id] = @user.id 
-  redirect '/secret_page'
+  redirect "/users/#{@user.id}"
 end 
 

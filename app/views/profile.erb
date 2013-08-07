@@ -1,0 +1,25 @@
+<% if @error %>
+  <%= @error %>
+<% end %>
+
+<h1>welcome to the secret page</h1>
+<h2>muhahahahaha</h2>
+
+<h2>Create a short url</h2>
+<form action="/user/<%= @user.id %>/urls" method="post">
+  <input type="text" name="url" placeholder="Enter url">
+  <input type="submit" value="Create Url">
+</form>
+
+<ul>
+  <% @urls.each do |url| %>
+    <li><%= url.name %> - <a href="/<%= url.short_url %>"><%= url.short_url %></a></li>
+  <% end %>
+</ul>
+
+
+<% if !current_user %>
+  <%= @error %>
+<% else %>
+  <a href="/users/logout">Logout</a>
+<% end %>
